@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:macro name="motoman_mh180" params="prefix
+  s_upper_limit:=3.141 s_lower_limit:=-3.141
+  l_upper_limit:=1.326 l_lower_limit:=-1.047
+  u_upper_limit:=1.570 u_lower_limit:=-1.570
+  r_upper_limit:=6.283 r_lower_limit:=-6.283
+  b_upper_limit:=2.268 b_lower_limit:=-2.268
+  t_upper_limit:=6.283 t_lower_limit:=-6.283">
+
+  <!-- PROPERTIES -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="TO_RADIANS" value="${PI / 180}"/>
+
+  <material name="deep_blue">
+    <color rgba="0.12941 0.14902 0.74902 1"/>
+  </material>
+
+  <!-- LINKS -->
+  <!-- Note: Inertia values calculated by Solidworks under the assumption of  uniform mass distribution. -->
+  <link name="${prefix}base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/base_link.stl"/>
+      </geometry>
+      <material name="deep_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/base_link.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.0397 0.0031 0.1951"/>
+      <mass value="208.3"/>
+      <inertia ixx="5.829" iyy="8.346" izz="10.7" iyz="-0.03" ixz="0.3233" ixy="-0.1787"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}s_link">
+    <visual>
+      <origin xyz="0 0 0.308"/>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/link_s.stl"/>
+      </geometry>
+      <material name="deep_blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.308"/>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/link_s.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0971 0.0684 0.4991"/>
+      <mass value="265.3"/>
+      <inertia ixx="9.922" iyy="17.39" izz="18.37" iyz="1.933" ixz="1.549" ixy="2.22"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}l_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/link_l.stl"/>
+      </geometry>
+      <material name="deep_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/link_l.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.3213 -0.0395 1.035"/>
+      <mass value="193.4"/>
+      <inertia ixx="36.23" iyy="35.91" izz="3.082" iyz="-2.634" ixz="-0.1331" ixy="-0.0251"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}u_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/link_u.stl"/>
+      </geometry>
+      <material name="deep_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/link_u.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.5059 0.039 1.9577"/>
+      <mass value="258.7"/>
+      <inertia ixx="9.447" iyy="28.96" izz="25.15" iyz="-1.596" ixz="6.1" ixy="-1.233"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}r_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/link_r.stl"/>
+      </geometry>
+      <material name="deep_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/link_r.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="1.516 -0.06 2.1"/>
+      <mass value="22.63"/>
+      <inertia ixx="0.1083" iyy="0.1802" izz="0.1954" iyz="0.0001" ixz="-0.0001" ixy="-0.0481"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}b_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/link_b.stl"/>
+      </geometry>
+      <material name="deep_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/link_b.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="1.6501 -0.0089 2.1"/>
+      <mass value="19.98"/>
+      <inertia ixx="0.1421" iyy="0.1845" izz="0.238" iyz="-0.0001" ixz="0" ixy="0.0185"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}t_link">
+    <visual>
+      <origin xyz="0.014 0 0"/>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/visual/link_t.stl"/>
+      </geometry>
+      <material name="brass">
+        <color rgba="0.438 0.402 0.107 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.014 0 0"/>
+      <geometry>
+        <mesh filename="package://motoman_mh_support/meshes/mh180/collision/link_t.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="1.765 -0.0012 2.1"/>
+      <mass value="1.703"/>
+      <inertia ixx="0.0065" iyy="0.0035" izz="0.0035" iyz="0" ixz="0" ixy="0"/>
+    </inertial>
+  </link>
+
+  <link name="${prefix}tool0"/>
+
+  <!-- JOINTS -->
+  <!-- Note: Unless specified by an allowable moment, effort limits are calculated by multiplying each joints' servo motor rated torque by an assumed gearbox reduction of 120. This value was calculated by dividing the specified allowable moment of the R and B joints by their drive motors' rated torque. This value is highly suspect. -->
+  <joint name="${prefix}joint_1" type="revolute">
+    <origin xyz="0 0 0.342"/>
+    <parent link="${prefix}base_link"/>
+    <child link="${prefix}s_link"/>
+    <axis xyz="0 0 1"/>
+    <limit
+      lower="${s_lower_limit}"
+      upper="${s_upper_limit}"
+      effort="${23.5 * 120}"
+      velocity="${TO_RADIANS * 125}"/>
+  </joint>
+
+  <joint name="${prefix}joint_2" type="revolute">
+    <origin xyz="0.325 0 0.308"/>
+    <parent link="${prefix}s_link"/>
+    <child link="${prefix}l_link"/>
+    <axis xyz="0 1 0"/>
+    <limit
+      lower="${l_lower_limit}"
+      upper="${l_upper_limit}"
+      effort="${23.5 * 120}"
+      velocity="${TO_RADIANS * 115}"/>
+  </joint>
+
+  <joint name="${prefix}joint_3" type="revolute">
+    <origin xyz="0 0 1.15"/>
+    <parent link="${prefix}l_link"/>
+    <child link="${prefix}u_link"/>
+    <axis xyz="0 -1 0"/>
+    <limit
+      lower="${u_lower_limit}"
+      upper="${u_upper_limit}"
+      effort="${23.5 * 120}"
+      velocity="${TO_RADIANS * 125}"/>
+  </joint>
+
+  <joint name="${prefix}joint_4" type="revolute">
+    <origin xyz="1.033 0 0.3"/>
+    <parent link="${prefix}u_link"/>
+    <child link="${prefix}r_link"/>
+    <axis xyz="1 0 0"/>
+    <limit
+      lower="${r_lower_limit}"
+      upper="${r_upper_limit}"
+      effort="1000"
+      velocity="${TO_RADIANS * 182}"/>
+  </joint>
+
+  <joint name="${prefix}joint_5" type="revolute">
+    <origin xyz="0.192 0 0"/>
+    <parent link="${prefix}r_link"/>
+    <child link="${prefix}b_link"/>
+    <axis xyz="0 -1 0"/>
+    <limit
+      lower="${b_lower_limit}"
+      upper="${b_upper_limit}"
+      effort="1000"
+      velocity="${TO_RADIANS * 175}"/>
+  </joint>
+
+  <joint name="${prefix}joint_6" type="revolute">
+    <origin xyz="0.2105 0 0"/>
+    <parent link="${prefix}b_link"/>
+    <child link="${prefix}t_link"/>
+    <axis xyz="1 0 0"/>
+    <limit
+      lower="${t_lower_limit}"
+      upper="${t_upper_limit}"
+      effort="618"
+      velocity="${TO_RADIANS * 265}"/>
+  </joint>
+
+  <joint name="${prefix}joint_6-tool0" type="fixed">
+    <origin xyz="0.014 0 0" rpy="0 1.5708 0"/>
+    <parent link="${prefix}t_link"/>
+    <child link="${prefix}tool0"/>
+  </joint>
+
+  <transmission name="s_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${prefix}joint_1">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="s_motor">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="l_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${prefix}joint_2">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="l_motor">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="u_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${prefix}joint_3">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="u_motor">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="r_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${prefix}joint_4">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="r_motor">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="b_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${prefix}joint_5">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="b_motor">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="t_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${prefix}joint_6">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="t_motor">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</xacro:macro>
+</robot>
