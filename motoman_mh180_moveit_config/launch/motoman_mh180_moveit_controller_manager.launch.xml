@@ -1,0 +1,6 @@
+<launch>
+  <rosparam file="$(find motoman_mh180_moveit_config)/config/controllers.yaml"/>
+  <param name="use_controller_manager" value="true"/>
+  <param name="trajectory_execution/execution_duration_monitoring" value="false"/>
+  <param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItMultiControllerManager"/>
+</launch>

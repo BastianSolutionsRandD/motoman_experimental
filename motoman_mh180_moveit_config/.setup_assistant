@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: motoman_mh_support
+    relative_path: urdf/mh180.xacro
+    use_jade_xacro: true
+  SRDF:
+    relative_path: config/motoman_mh180.srdf
+  CONFIG:
+    author_name: James Burton
+    author_email: jburton@bastiansolutions.com
+    generated_timestamp: 1525293074
