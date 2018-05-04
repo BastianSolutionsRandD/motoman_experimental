@@ -1,5 +1,17 @@
 <?xml version="1.0" ?>
 <robot name="motoman_mh180" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find motoman_mh_support)/urdf/common.gazebo"/>
   <xacro:include filename="$(find motoman_mh_support)/urdf/mh180_macro.xacro"/>
+
+  <link name="world">
+  </link>
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+  </joint>
+
   <xacro:motoman_mh180 prefix=""/>
+
 </robot>
